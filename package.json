@@ -5,10 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf ./build && tsc",
-    "start:dev": "nodemon",
-    "start": "npm run build && node build/index.js",
+    "start": "nodemon",
+    "serve:prod": "npm run migrate:prod && node dist/server.js",
     "test": "jest",
-    "test:dev": "jest --watchAll"
+    "test:dev": "jest --watchAll",
+    "prisma:generate": "prisma generate",
+    "migrate:dev": "prisma migrate deploy dev",
+    "migrate:prod": "prisma migrate deploy"
   },
   "repository": {
     "type": "git",
@@ -26,8 +29,10 @@
   "homepage": "https://github.com/subbu-everest/quiz-server#readme",
   "devDependencies": {
     "@types/jest": "^27.0.2",
+    "@types/node": "^16.10.1",
     "nodemon": "^2.0.13",
     "prettier": "^2.4.1",
+    "prisma": "^3.1.1",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },

@@ -1,68 +1,33 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- CreateTable
-CREATE TABLE "mc_questions" (
+CREATE TABLE "timesheet" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "question" TEXT NOT NULL,
-    "option_1" TEXT NOT NULL,
-    "option_2" TEXT NOT NULL,
-    "option_3" TEXT NOT NULL,
-    "option_4" TEXT NOT NULL,
-    "quizQuestionId" UUID,
+    "user_id" UUID NOT NULL,
+    "hours_worked" INTEGER NOT NULL,
+    "project_id" UUID NOT NULL,
 
-    CONSTRAINT "mc_questions_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "timesheet_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "mc_question_answers" (
+CREATE TABLE "users" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "question_id" UUID NOT NULL,
-    "answer" TEXT NOT NULL,
+    "user" TEXT NOT NULL,
 
-    CONSTRAINT "mc_question_answers_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "quiz" (
+CREATE TABLE "projects" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "topic" TEXT NOT NULL,
-    "quizQuestionId" UUID,
+    "name" TEXT NOT NULL,
 
-    CONSTRAINT "quiz_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "projects_pkey" PRIMARY KEY ("id")
 );
 
--- CreateTable
-CREATE TABLE "quiz_questions" (
-    "id" UUID NOT NULL DEFAULT uuid_generate_v4(),
-    "quiz_id" UUID NOT NULL,
-    "question_id" UUID NOT NULL,
-
-    CONSTRAINT "quiz_questions_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "_MCQAnswerToMCQuestion" (
-    "A" UUID NOT NULL,
-    "B" UUID NOT NULL
-);
-
--- CreateIndex
-CREATE UNIQUE INDEX "_MCQAnswerToMCQuestion_AB_unique" ON "_MCQAnswerToMCQuestion"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_MCQAnswerToMCQuestion_B_index" ON "_MCQAnswerToMCQuestion"("B");
+-- AddForeignKey
+ALTER TABLE "timesheet" ADD CONSTRAINT "timesheet_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "mc_questions" ADD CONSTRAINT "mc_questions_quizQuestionId_fkey" FOREIGN KEY ("quizQuestionId") REFERENCES "quiz_questions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "mc_question_answers" ADD CONSTRAINT "mc_question_answers_question_id_fkey" FOREIGN KEY ("question_id") REFERENCES "mc_questions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "quiz" ADD CONSTRAINT "quiz_quizQuestionId_fkey" FOREIGN KEY ("quizQuestionId") REFERENCES "quiz_questions"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_MCQAnswerToMCQuestion" ADD FOREIGN KEY ("A") REFERENCES "mc_question_answers"("id") ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "_MCQAnswerToMCQuestion" ADD FOREIGN KEY ("B") REFERENCES "mc_questions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "timesheet" ADD CONSTRAINT "timesheet_project_id_fkey" FOREIGN KEY ("project_id") REFERENCES "projects"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

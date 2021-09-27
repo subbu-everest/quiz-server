@@ -1,5 +1,5 @@
 {
-  "name": "quiz-server",
+  "name": "timesheet-server-clone",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/subbu-everest/quiz-server.git"
+    "url": "git+https://github.com/subbu-everest/timesheet-server-clone.git"
   },
   "keywords": [
     "nodejs",
@@ -24,9 +24,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/subbu-everest/quiz-server/issues"
+    "url": "https://github.com/subbu-everest/timesheet-server-clone/issues"
   },
-  "homepage": "https://github.com/subbu-everest/quiz-server#readme",
+  "homepage": "https://github.com/subbu-everest/timesheet-server-clone#readme",
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
     "@types/express": "^4.17.13",

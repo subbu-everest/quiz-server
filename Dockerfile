@@ -6,4 +6,4 @@ COPY . .
 RUN npm run build
 RUN npm run prisma:generate
 EXPOSE 5000
-CMD ["node", "run", "serve:prod"]
+CMD ["npm", "start"]

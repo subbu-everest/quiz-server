@@ -15,9 +15,9 @@ model MCQuestion {
   option3  String @map("option_3")
   option4  String @map("option_4")
 
-  @@map("mc_questions")
   QuizQuestion   QuizQuestion? @relation(fields: [quizQuestionId], references: [id])
   quizQuestionId String?       @db.Uuid
+  @@map("mc_questions")
 }
 
 model MCQAnswer {
@@ -45,4 +45,31 @@ model QuizQuestion {
   quiz     Quiz[]
   question MCQuestion[]
   @@map("quiz_questions")
+}
+
+model Timesheet {
+  id          String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
+  userId      String @map("user_id") @db.Uuid
+  hoursWorked Int    @map("hours_worked")
+  projectId   String @map("project_id") @db.Uuid
+
+  user    User    @relation(fields: [userId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+  @@map("timesheet")
+}
+
+model User {
+  id   String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
+  name String @map("user")
+
+  Timesheet Timesheet[]
+  @@map("users")
+}
+
+model Project {
+  id   String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
+  name String @map("name")
+
+  Timesheet Timesheet[]
+  @@map("projects")
 }

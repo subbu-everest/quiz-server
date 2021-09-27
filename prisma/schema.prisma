@@ -7,46 +7,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model MCQuestion {
-  id       String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
-  question String @map("question")
-  option1  String @map("option_1")
-  option2  String @map("option_2")
-  option3  String @map("option_3")
-  option4  String @map("option_4")
-
-  QuizQuestion   QuizQuestion? @relation(fields: [quizQuestionId], references: [id])
-  quizQuestionId String?       @db.Uuid
-  @@map("mc_questions")
-}
-
-model MCQAnswer {
-  id         String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
-  questionId String @map("question_id") @db.Uuid
-  answer     String @map("answer")
-
-  @@map("mc_question_answers")
-}
-
-model Quiz {
-  id    String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
-  topic String @map("topic")
-
-  QuizQuestion   QuizQuestion? @relation(fields: [quizQuestionId], references: [id])
-  quizQuestionId String?       @db.Uuid
-  @@map("quiz")
-}
-
-model QuizQuestion {
-  id         String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
-  quizId     String @map("quiz_id") @db.Uuid
-  questionId String @map("question_id") @db.Uuid
-
-  quiz     Quiz[]
-  question MCQuestion[]
-  @@map("quiz_questions")
-}
-
 model Timesheet {
   id          String @id @default(dbgenerated("uuid_generate_v4()")) @map("id") @db.Uuid
   userId      String @map("user_id") @db.Uuid
